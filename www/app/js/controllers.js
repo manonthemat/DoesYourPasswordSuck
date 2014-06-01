@@ -43,6 +43,7 @@ angular.module('dypws.controllers', [])
                 // only letters
                 $scope.suckiness = 70;
             }
+            // comment out the following else if block to check server for pw 'password123'
             else if (checkPattern($scope.password, false)) {
                 // alphanumeric
                 $scope.suckiness = 60;
