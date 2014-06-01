@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="dypws">
+<head>
+	<title>Does Your Password Suck?</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
+	<style type="text/css">
+		/* Prevent copy paste for all elements except text fields */
+		*  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
+		input, textarea  { -webkit-user-select:text; }
+		body { background-color:white; color:black }
+	</style>
+	<script type="text/javascript">
+		/* Intel native bridge is available */
+		var onDeviceReady=function(){
+		//hide splash screen
+		intel.xdk.device.hideSplashScreen(true);
+		};
+		document.addEventListener("intel.xdk.device.ready",onDeviceReady,false);
+	</script>
+    <script src="app/js/angular.js"></script>
+    <script src="app/js/angular-md5.js"></script>
+    <script src="app/js/app.js"></script>
+    <script src="app/js/controllers.js"></script>
+    <link rel="stylesheet" href="app/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" src="app/css/app.css" />
+</head>
+<body ng-controller="mainCtrl">
+	<div class="jumbotron">
+        <h1 align="center">Does Your Password Suck?</h1>
+        <form role="form" ng-submit="checkSuckiness()">
+            <div class="form-group">
+                <input type="password" id="password" ng-model="password" placeholder="Test your password" ng-focus="suckiness = null; check_cracked_pws = false" autofocus class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Check Strength</button>
+        </form>
+    </div>
+    <div ng-if="suckiness" class="container">
+        <h1 ng-if="suckiness > 1" style="padding-top:0;margin-top:0;">Yes!<br/><small>Your weakness level is <span ng-bind="suckiness">(calculating)</span></small></h1>
+        <p ng-if="suckiness == 100" align="justify">Your password sucks super bad, because it's empty! I really hope it's not your real password. You're a master of password weakness, now go ahead and do some buzzfeed quizzes, moron!</p>
+        <p ng-if="suckiness == 99" align="justify">Seriously? I don't have to say anything about that, do I?!</p>
+        <p ng-if="suckiness == 90" align="justify">Doesn't matter how many non-alphanumeric characters you might have put in (I didn't even check), it's still pretty darn dumb to use less than 8 characters in a password. This ain't the 1970s anymore. Your smartphone can crack that shit.</p>
+        <p ng-if="suckiness == 80" align="justify">Hey, at least it's over 8 characters long. Hold on a sec. It's only digits! Why don't you use your SSN or credit card number? Or did you? If so, you shouldn't...</p>
+        <p ng-if="suckiness == 70" align="justify">Try to graduate from elementary school and you will know more than the ABC.</p>
+        <p ng-if="suckiness == 66" align="justify">Your password isn't so bad, unfortunately it's well-known. Change it!</p>
+        <p ng-if="suckiness == 60" align="justify">You're getting there, but use something else than just letters and numbers.</p>
+        <p ng-if="suckiness == 50" align="justify">Your password is useless once it's cracked. People are trying to crack your password. Go change it!</p>
+        <h1 ng-if="suckiness == 1">It ain't so bad</h1>
+        <p ng-if="suckiness == 1" align="justify">Just make sure you keep your password to yourself.</p>
+    </div>
+    <div ng-if="suckiness == null" class="container">
+        <div ng-hide="check_cracked_pws"><h3>Show me what you got!</h3><p>Enter your password and I tell you how bad it is.</p></div>
+        <div ng-if="check_cracked_pws"><p align="justify">Checking the database for cracked passwords...</p></div>
+    </div>
+
+    
+</body>
+</html>
